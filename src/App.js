@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './SmartHome.css';
 
 function App() {
+  const [devices, setDevices] = useState({
+    light: false,
+    fan: false,
+    ac: false,
+    security: false,
+  });
+
+  const toggleDevice = (device) => {
+    setDevices({ ...devices, [device]: !devices[device] });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="dashboard">
+      <h1>🏠 Smart Home Control</h1>
+      {Object.keys(devices).map((device) => (
+        <div
+          key={device}
+          className={`device ${devices[device] ? 'on' : ''}`}
         >
-          Learn React
-        </a>
-      </header>
+          <span>{device} is {devices[device] ? 'ON' : 'OFF'}</span>
+          <button className="toggle-btn" onClick={() => toggleDevice(device)}>
+            Toggle
+          </button>
+        </div>
+      ))}
     </div>
   );
 }
